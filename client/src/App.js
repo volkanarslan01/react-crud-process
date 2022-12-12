@@ -16,9 +16,11 @@ export default function App() {
     Axios.post("http://localhost:3003/api/insert", {
       movie_name: movieName,
       movie_review: review,
-    }).then(() => {
-      alert(`successful insert`);
     }); // ? api url
+    setMovieList([
+      ...movieReviewList,
+      { movie_name: movieName, movie_review: review },
+    ]);
   };
   return (
     <div className="App">
@@ -45,10 +47,10 @@ export default function App() {
         <h3> History Movie:</h3>
         {movieReviewList.map((val) => {
           return (
-            <h4>
-              {" "}
-              Movie : {val.movie_name} | Review : {val.movie_review}
-            </h4>
+            <div className="card">
+              <h1>{val.movie_name}</h1>
+              <p>{val.movie_review}</p>
+            </div>
           );
         })}
       </div>

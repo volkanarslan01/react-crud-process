@@ -1,6 +1,8 @@
 // ? create express server
 const express = require("express");
 
+require("dotenv").config();
+
 // ? cors
 const cors = require("cors");
 
@@ -11,15 +13,7 @@ const app = express();
 
 const bodyParser = require("body-parser");
 // ? mysql
-const mysql = require("mysql");
-
-const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "mysql123",
-  database: "crud-database",
-});
-
+const db = require("./Middleware/mysqlhandler.js");
 // !  app.get("/", (req, res) => {
 //   const sql =
 //     "INSERT INTO movie_reviews (movie_name , movie_review) VALUES ('iron man', 'good movies');";
@@ -39,9 +33,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // ! all movies
 app.get("/api/get", (req, res) => {
-  const sqlSelect = "SELECT * FROM movie_reviews";
+  const sqlSelect = "SELECT * FROM movie_review";
   db.query(sqlSelect, (err, result) => {
     res.send(result);
+    console.log(result);
   });
 });
 
@@ -49,8 +44,7 @@ app.get("/api/get", (req, res) => {
 app.post("/api/insert", (req, res) => {
   const movie = req.body.movie_name;
   const review = req.body.movie_review;
-  const sql =
-    "INSERT INTO movie_reviews (movie_name , movie_review) VALUES (?,?);";
+  const sql = `INSERT INTO movie_review (movie_name, movie_review) VALUES (?,?)`;
   db.query(sql, [movie, review], (err, result) => {
     res.send(result);
   });
