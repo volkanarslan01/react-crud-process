@@ -14,16 +14,6 @@ const app = express();
 const bodyParser = require("body-parser");
 // ? mysql
 const db = require("./Middleware/mysqlhandler.js");
-// !  app.get("/", (req, res) => {
-//   const sql =
-//     "INSERT INTO movie_reviews (movie_name , movie_review) VALUES ('iron man', 'good movies');";
-//   db.query(sql, (err, result) => {
-//     res.send("hello");
-//   });
-//   // ? info send frontend
-//  !! });
-
-// ! you should write
 
 app.use(cors());
 // info json formatter
@@ -32,6 +22,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // ! all movies
+// * read  process
 app.get("/api/get", (req, res) => {
   const sqlSelect = "SELECT * FROM movie_review";
   db.query(sqlSelect, (err, result) => {
@@ -41,6 +32,7 @@ app.get("/api/get", (req, res) => {
 });
 
 // ? frontend request
+// * add process
 app.post("/api/insert", (req, res) => {
   const movie = req.body.movie_name;
   const review = req.body.movie_review;
@@ -50,7 +42,26 @@ app.post("/api/insert", (req, res) => {
   });
 });
 
-//?  listen port 3003
+// ! delete process
+app.delete("/api/delete/:movie_name", (req, res) => {
+  const name = req.params.movie_name;
+  const sql = `DELETE FROM movie_review WHERE movie_name = ?`;
+  db.query(sql, [name], (err) => {
+    if (err) console.log(err);
+  });
+});
+
+// ? update process
+app.put("/api/update", (req, res) => {
+  const movie = req.body.movie_name;
+  const review = req.body.movie_review;
+  const sql = `UPDATE  movie_review SET movie_review = ? WHERE movie_name = ?`;
+
+  db.query(sql, [review, movie], (err, results) => {
+    if (err) console.log(err);
+  });
+});
+//?  listen port 3003 8
 app.listen(3003, () => {
   console.log("running on port 3003");
 });
