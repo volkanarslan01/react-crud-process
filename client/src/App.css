@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: "Courier New", Courier, monospace;
 }
 
 .form {
@@ -17,9 +18,15 @@
 }
 
 .card {
+  width: 150px;
   width: 500px;
   height: 150px;
   border: 2px solid #333;
   border-radius: 15px;
   margin-bottom: 10px;
+}
+
+#updateInput {
+  width: 100px;
+  height: 20px;
 }
